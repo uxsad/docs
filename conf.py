@@ -10,7 +10,9 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os
+import yaml
+from urllib.request import urlopen
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -51,3 +53,34 @@ html_theme = 'default'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# Subproject's links
+rtd_version = os.environ.get("READTHEDOCS_VERSION", "latest")
+intersphinx_mapping = {
+    "emotion-analysis": (
+        "https://uxsad.readthedocs.io/projects/emotion-analysis/en/%s/" % rtd_version,
+        None,
+    ),
+    "ai-models": (
+        "https://uxsad.readthedocs.io/projects/ai-models/en/%s/" % rtd_version,
+        None,
+    ),
+}
+
+PROJECT_SLUG = "uxsad"
+d = yaml.safe_load(urlopen("https://raw.githubusercontent.com/uxsad/docs/master/sidebar.yml"))
+with open(".sidebar.rst", "w") as f:
+    for proj in d["projects"]:
+        if proj not in d["toctrees"]:
+            continue
+        print(".. toctree::", file=f)
+        print("   :maxdepth: 2", file=f)
+        print("   :caption: {}".format(d["toctrees"][proj]["name"]), file=f)
+        print(file=f)
+        for item in d["toctrees"][proj]["items"]:
+            if proj == PROJECT_SLUG:
+                args = (item['title'], item['link'])
+            else:
+                args = (item['title'], d["projects"][proj] + '/en/' + rtd_version + '/' + item['link'] + ".html")
+            print("   {} <{}>".format(*args), file=f)
+

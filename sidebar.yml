@@ -1,0 +1,18 @@
+projects:
+  uxsad: https://uxsad.readthedocs.io
+  ai-models: https://uxsad.readthedocs.io/projects/ai-models
+  emotion-analysis: https://uxsad.readthedocs.io/projects/emotion-analysis
+toctrees:
+  uxsad:
+    name: UX-SAD
+    items:
+      - title: Introduction
+        link: README
+  ai-models:
+    name: AI Model Selection
+    items:
+      - title: Manpages
+        link: ai-models-man
+
+
+# vim: set ft=yaml sw=2 ts=2 expandtab :

@@ -6,10 +6,7 @@
 Welcome to UX-SAD Documentation's documentation!
 ================================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
+.. include:: .sidebar.rst
 
 
 Indices and tables
