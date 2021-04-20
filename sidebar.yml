@@ -12,7 +12,7 @@ toctrees:
     name: AI Model Selection
     items:
       - title: Manpages
-        link: ai-models-man
+        link: man/index
 
 
 # vim: set ft=yaml sw=2 ts=2 expandtab :
