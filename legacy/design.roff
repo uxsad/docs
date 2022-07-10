@@ -1,0 +1,116 @@
+.RP
+.nr fig 0 1
+.TL
+Design of the UX-SAD Visualization Platform
+.AU
+Andrea Esposito
+.pdfinfo /Title "Design of the UX-SAD Visualization Platform"
+.pdfinfo /Author "Andrea Esposito"
+.AI
+University of Bari \*QAldo Moro\*U
+Department of Computer Science
+.AB
+This brief and simple document contains a very brief documentation for the
+\*Qfrontend\*U of UX-SAD (written on-the-fly). Given its simple nature, this
+document is typesetted using *roff, thus allowing the usage of the PIC language
+(by Kernighan) to draw simple diagrams very naturally. This document must not
+be considered as a structured documentation, but rather as an organized set of
+notes to aid the communication between team members.
+.AE
+.PS
+define generalization
+{
+	[
+		if ( "$1" == "right" ) then { right } else { left }
+		line $2
+		if ( "$1" == "right" ) then {
+		[
+			line from 1st line.end to 1st line.end - (0.1,0.05)
+			line from 1st line.end to 1st line.end - (0.1,-0.05)
+			line from 2nd line.end to 3rd line.end
+		] } else {
+		[
+			line from 1st line.start to 1st line.start + (0.1,0.05)
+			line from 1st line.start to 1st line.start + (0.1,-0.05)
+			line from 2nd line.end to 3rd line.end
+		] }
+	]
+}
+.PE
+.
+.\" START
+.
+.NH 1
+.XN Users
+.LP
+The main classes of users that have been recognized that have an interest in
+using the system are represented in Figure 1. From the requirements point of
+view, the users' classes \*Qevaluators\*U and \*Qdesigners\*U are actually
+equivalent, thus no actual difference will be made between them during the next
+steps of the design process.
+.KS
+.PS
+	left
+	move
+	[
+		down
+		box "Designer" height 0.3
+		move 0.3
+		box "Evaluator" height 0.3
+		move 0.3
+		box "Web Users\*{\(**\*}" height 0.3
+		line left 0.25 from 1st box.w
+		line left 0.25 from 2nd box.w
+		line left 0.25 from 3rd box.w
+		line from 1st line.end to 3rd line.end
+	]
+	generalization(left)
+	box "\fIUsers\fP" height 0.3
+.PE
+.ce 2
+.B "Figure \n+[fig]. " \c
+The users of the system
+.KE
+.FS \(**
+It should be noted that this kind of user are not actually targeted by the system, but they should nonetheless be able to navigate it to view \*Qpublic projects\*U (thus ensuring the possibility of publishing researches' results).
+.FE
+.
+.NH 1
+.XN The Database
+.LP
+A very simple initial database schema is represented in Figure 2. Such schema
+is the minimum schema required to serve the JavaScript library and to allow the
+visualization (on a page-by-page basis) of the users' emotions. 
+.PP
+As it is really simple, it lacks metadata and various information that may be
+needed in the actual system: for this reason, it should be considered as the
+\*Qskeleton schema\*U of the system, i.e. the schema containing the minimum
+requirements for a fully-functional database.
+.KS
+.PS
+.ft C
+box "Users" height 0.3
+line 0.75 "0..*" ljust "1   " rjust
+[
+down
+box "Websites" wid 1.5 height 0.3
+box "\s-2+ base_url : string" "+ id : int {key}" "+ name : string\s0" wid 1.5
+]
+line 0.75 "0..*" ljust "1   " rjust
+[
+down
+box "Pages" wid 2.25 height 0.3
+box "\s-2+ id : int {key}" "+ screenshot : blob" "+ emotion_data : json" "- interactions : json {maybe}\s0" wid 2.25 height 0.7
+]
+line from 1st box.s down then right 1.875 to 1st [].s
+"0..*" at last line.start - (.25,.25)
+"0..*" at last line.end + (.25,-.25)
+"\s-2\[<-] shared with\s0" at last line.center - (0,.5)
+.ft
+.PE
+.ce 2
+.B "Figure \n+[fig]. " \c
+The basic database schema (represented in UML)
+.KE
+.
+.\" vim: set ft=nroff :
